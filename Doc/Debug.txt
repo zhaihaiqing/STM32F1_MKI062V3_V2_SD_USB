@@ -1,0 +1,16 @@
+
+//本代码是在MKI062V3小开发板上不断完善而来的
+//主芯片：STM32F103RET7
+
+1：完成IMU读取
+2：完成RTC试验
+3：完成SD卡读取试验
+
+4：2019-3-2
+	完成文件系统试验
+
+5：2019-11-4
+完成USB驱动移植，同时完成读卡器试验（参考正点原子 战舰V3学习教程）
+	修改战舰V3中的一个错误：
+	将：	Mass_Memory_Size[0]=SDCardInfo.CardCapacity*1024;				//得到SD卡容量（字节），当SD卡容量超过4G的时候,需要用到两个u32来表示
+	修改为：Mass_Memory_Size[0]=(uint64_t)SDCardInfo.CardCapacity*1024;		//得到SD卡容量（字节），当SD卡容量超过4G的时候,需要用到两个u32来表示

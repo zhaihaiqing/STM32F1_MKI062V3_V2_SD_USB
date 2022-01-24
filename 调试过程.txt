@@ -1,0 +1,20 @@
+将串口printf函数从STM32L151移植到STM32F103，发现printf函数无法使用，编译下载后单片机完全不运行，使用USART_PutChar函数能够正常打印数据。检查代码，发现没有错误，初步怀疑是配置问题。
+
+
+解决办法：打开Options for 'STM32xxxx'下的Target选项卡，将“Use MicroLIB”项勾选，并重新编译工程，下载。
+
+
+
+
+SD卡：
+
+文件中声明SDHC支持24MHz，实际测试时发现，24MHz下初始化失败，12MHz下可正常运行
+
+
+FATFS
+
+1：变量FATFS *fs应该定义为FATFS fs; 在引用时res=f_mount(&fs,"0:",0); 	//挂载SD卡 
+
+2：使用文件系统时对栈的需求变大，应该调整startup_stm32f10x_hd.s中栈大小：Stack_Size      EQU     0x00001000
+
+3：SDCard中SD_Error枚举中，SD_OK值定义错误，导致f_open出错，应当定义为SD_OK = 0
